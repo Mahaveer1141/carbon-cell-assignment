@@ -1,0 +1,59 @@
+@import "variables";
+
+.main {
+  &__container {
+    height: 100vh;
+    display: flex;
+  }
+
+  &__body {
+    height: fit-content;
+    padding: 2rem;
+    margin-left: 17rem;
+    max-width: 1500px;
+    transition: margin ease-in-out 0.5s;
+
+    &.close {
+      margin-left: 0;
+    }
+
+    @media screen and (max-width: 680px) {
+      padding: 1rem;
+    }
+  }
+
+  &__header {
+    display: flex;
+    gap: 1rem;
+    color: white;
+    align-items: center;
+    margin-bottom: 5rem;
+  }
+
+  &__header-icon {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+
+    &:hover {
+      background-color: $box-bg-color;
+      border-radius: 10px;
+    }
+  }
+
+  &__header-text {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: white;
+  }
+}
+
+.price-card__container {
+  margin-top: 5rem;
+  display: flex;
+  gap: 1rem;
+  @media screen and (max-width: 680px) {
+    flex-direction: column;
+  }
+}

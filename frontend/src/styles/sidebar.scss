@@ -1,0 +1,83 @@
+@import "variables";
+
+.sidebar {
+  &__container {
+    height: 100vh;
+    width: 17rem;
+    background-color: $sidebar-bg-color;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    border-radius: 0 10px 10px 0;
+    max-height: 100vh;
+    position: fixed;
+    transition: margin ease-in-out 0.5s;
+    overflow: hidden;
+
+    &.hide {
+      margin-left: -17rem;
+      @media screen and (max-width: 950px) {
+        margin-left: -100vw;
+      }
+    }
+
+    @media screen and (max-width: 950px) {
+      width: 100vw;
+    }
+  }
+
+  &__header {
+    display: flex;
+    margin-top: 1rem;
+    padding: 1rem;
+    align-items: center;
+    text-wrap: nowrap;
+  }
+
+  &__header-text {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 500;
+  }
+
+  &__header-icon {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    cursor: pointer;
+    padding: 5px;
+
+    &:hover {
+      background-color: $box-bg-color;
+      cursor: pointer;
+      border-radius: 100%;
+    }
+  }
+}
+
+.sidebar-item {
+  &__container {
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    &.selected {
+      color: $selection-color;
+      background-color: $box-bg-color;
+      cursor: pointer;
+      border-radius: 1rem;
+    }
+
+    &:hover {
+      background-color: $box-bg-color;
+      cursor: pointer;
+      border-radius: 1rem;
+    }
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+  }
+}

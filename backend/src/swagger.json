@@ -1,0 +1,325 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Carbon Cell Assignment API",
+    "description": "API for authentication, api and user data retrieval"
+  },
+  "host": "carbon-cell-assignment-cd86.onrender.com",
+  "basePath": "/",
+  "schemes": ["https"],
+  "tags": [
+    { "name": "auth", "description": "Authentication routes" },
+    { "name": "data", "description": "Data retrieval routes" }
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Register a new user",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "format": "email",
+                  "example": "user@example.com"
+                },
+                "password": {
+                  "type": "string",
+                  "minLength": 8,
+                  "example": "password"
+                },
+                "confirmPassword": {
+                  "type": "string",
+                  "minLength": 8,
+                  "example": "password"
+                }
+              },
+              "required": ["email", "password", "confirmPassword"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User registered successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "user registered successfully"
+                },
+                "id": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request, invalid input"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Login with email and password",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "format": "email",
+                  "example": "user@example.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "password"
+                }
+              },
+              "required": ["email", "password"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "user logged in successfully"
+                },
+                "accessToken": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+                },
+                "refreshToken": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request, invalid input"
+          }
+        }
+      }
+    },
+    "/auth/tokenChange": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Renew access token using refresh token",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "refreshToken": {
+                  "type": "string"
+                }
+              },
+              "required": ["refreshToken"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Access token renewed successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "token revoked successfully"
+                },
+                "accessToken": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request, invalid input"
+          },
+          "401": {
+            "description": "Unauthorized, invalid refresh token"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "delete": {
+        "tags": ["auth"],
+        "summary": "Logout",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Logout successful",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "user logged out successfully"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, missing or invalid token"
+          }
+        }
+      }
+    },
+    "/data/api_data": {
+      "get": {
+        "tags": ["data"],
+        "summary": "Retrieve and filter API data",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi",
+            "description": "Category of the API data"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "description": "Page number for pagination"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer",
+            "description": "Limit number of items per page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "API data retrieved successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "API data retrived successfully"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "API": {
+                        "type": "string",
+                        "example": "AdoptAPet"
+                      },
+                      "Description": {
+                        "type": "string",
+                        "example": "Resource to help get pets adopted"
+                      },
+                      "Auth": {
+                        "type": "string",
+                        "example": "apiKey"
+                      },
+                      "HTTPS": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "Cors": {
+                        "type": "string",
+                        "example": "yes"
+                      },
+                      "Link": {
+                        "type": "string",
+                        "example": "https://www.adoptapet.com/public/apis/pet_list.html"
+                      },
+                      "Category": {
+                        "type": "string",
+                        "example": "Animals"
+                      }
+                    }
+                  }
+                },
+                "total_count": {
+                  "type": "integer",
+                  "example": 38
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/data/user_data": {
+      "get": {
+        "tags": ["data"],
+        "summary": "Retrieve user data",
+        "responses": {
+          "200": {
+            "description": "User data retrieved successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "User retrived successfully"
+                },
+                "user": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "12345"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email",
+                      "example": "user@example.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, missing or invalid token"
+          }
+        },
+        "security": [{ "BearerAuth": [] }]
+      }
+    }
+  },
+  "securityDefinitions": {
+    "BearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "JWT Authorization header using the Bearer scheme"
+    }
+  }
+}
